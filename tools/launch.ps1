@@ -17,7 +17,7 @@
   tools\launch.ps1                                     # claude backend (needs ANTHROPIC_API_KEY), ~/.agentcraft, ports 7878/7879
   tools\launch.ps1 -Repo C:\code\life-tracker          # register a repo with the Foreman
   tools\launch.ps1 -UseClaudeLogin                     # personal use: your `claude` CLI login instead of an API key
-  tools\launch.ps1 -Backend codex                      # an all-Codex team on your Codex login (`codex login`)
+  tools\launch.ps1 -Backend grok                      # an all-Grok team; run foreman `npm run grok-login` first
   tools\launch.ps1 -ForemanArgs '--worker-engine','codex'   # mixed: Claude lead, Codex workers
   tools\launch.ps1 -Backend sim                        # scripted demo team, no API calls
   tools\launch.ps1 -Showcase late                      # static showcase state (sim)
@@ -25,7 +25,7 @@
 #>
 [CmdletBinding(PositionalBinding = $false)]
 param(
-    [ValidateSet('sim', 'claude', 'codex')][string]$Backend,
+    [ValidateSet('sim', 'claude', 'codex', 'grok')][string]$Backend,
     [string[]]$Repo,
     [Alias('Profile')][string]$ForemanProfile,
     # -Showcase [busy|late]: a switch with an optional positional value
@@ -43,6 +43,7 @@ param(
     [string[]]$ForemanArgs,
     # claude backend: use your local `claude` CLI login instead of ANTHROPIC_API_KEY (personal use only)
     [switch]$UseClaudeLogin,
+    [switch]$UseGrokLogin,
     [switch]$Notify,
     [switch]$NoNotify,
     [switch]$NoGame,
@@ -217,6 +218,7 @@ if ($live) {
     if ($Goal) { $fargs += @('--goal', $Goal) }
     if ($Dev -or $NoNotify) { $fargs += '--no-notify' } elseif ($Notify) { $fargs += '--notify' }
     if ($UseClaudeLogin) { $fargs += '--use-claude-login' }
+    if ($UseGrokLogin) { $fargs += '--use-grok-login' }
     if ($ForemanArgs) { $fargs += $ForemanArgs }
     if ($DryRun) {
         Write-Kv 'would run' ("node " + (Join-CmdArgs $fargs) + "   (in foreman/)") 'Yellow'

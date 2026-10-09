@@ -4,7 +4,7 @@
 
 **A team of Claude agents doing real work on your code, inside a Minecraft studio you can walk around in.**
 
-*Powered by Claude*
+*Powered by Claude, Codex, and Grok*
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-c9a227)](LICENSE)
 [![Minecraft 26.3](https://img.shields.io/badge/Minecraft-26.3-8fa98b)](https://www.minecraft.net)
@@ -227,6 +227,19 @@ checked by AgentCraft's policy (and asked in game when it needs you), the lead's
 **Merge**. They never get your own Codex MCP servers, plugins, apps or web search. Pick models with
 `--codex-model`, and mix engines per agent with `--engines kit=codex,wren=claude`. Every agent's nameplate shows the
 model it runs, like **Opus 5.5** or **GPT-6 Astra**, so a mixed team is easy to read at a glance.
+
+**Grok.** AgentCraft also runs Grok agents on your own login. From `foreman/`, `npm run grok-login` prints a device code for [accounts.x.ai](https://accounts.x.ai) (SuperGrok or X Premium+). Then:
+
+```powershell
+tools\launch.ps1 -Backend grok -Repo C:\path\to\your\repo
+tools\launch.ps1 -Repo C:\path\to\your\repo -ForemanArgs '--worker-engine','grok'
+```
+
+```sh
+node tools/unix.mjs launch --backend grok --repo /path/to/your/repo
+```
+
+That login is stored in `~/.agentcraft/grok-oauth.json` and is never logged. `--no-use-grok-login` bills `XAI_API_KEY` instead. Grok agents use the same worktrees, policy, reviews and merges. Nameplates show the model, like **Grok 4.5**. Mix engines with `--engines kit=grok,wren=claude`.
 
 **Your name.** The agents call you by your OS user name. Change it with
 `-ForemanArgs '--user-name','Sam'`, `AGENTCRAFT_USER_NAME`, or `{"userName": "Sam"}` in

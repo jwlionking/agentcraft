@@ -37,6 +37,13 @@ npm run start -- --backend claude --repo C:\path\to\your\repo --use-claude-login
 npm run start -- --backend codex --repo C:\path\to\your\repo
 npm run start -- --backend claude --worker-engine codex --repo C:\path\to\your\repo
 
+# Grok agents on your Grok login (device code at accounts.x.ai — SuperGrok or X Premium+)
+cd foreman && npm run grok-login
+npm run start -- --backend grok --repo C:\path\to\your\repo
+# API key instead of the login: set XAI_API_KEY and pass --no-use-grok-login
+# mix: Claude lead, Grok workers
+npm run start -- --backend claude --worker-engine grok --repo C:\path\to\your\repo
+
 # simulated team on a fresh sandbox repo (no API calls) - for demos and screenshot QA
 npm run start -- --backend sim --reset --speed 2
 

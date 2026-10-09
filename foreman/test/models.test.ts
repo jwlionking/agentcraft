@@ -14,6 +14,8 @@ describe('modelLabel', () => {
     ['gpt-6-astra', 'GPT-6 Astra'],
     ['gpt-5.1-codex-mini', 'GPT-5.1 Codex Mini'],
     ['o4-mini', 'o4 Mini'],
+    ['grok-4.5', 'Grok 4.5'],
+    ['grok-4-fast', 'Grok 4 Fast'],
     ['my-local-model', 'my-local-model'],
   ])('%s -> %s', (model, label) => {
     expect(modelLabel(model)).toBe(label);

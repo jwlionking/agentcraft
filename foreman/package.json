@@ -10,6 +10,7 @@
   },
   "scripts": {
     "start": "node --import tsx src/main.ts",
+    "grok-login": "node --import tsx src/agents/grok/login-cli.ts",
     "tui": "node --import tsx scripts/fake-mod.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",

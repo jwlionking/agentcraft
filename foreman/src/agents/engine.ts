@@ -1,12 +1,12 @@
-// An engine runs one agent turn: the Claude Agent SDK (claude/engine.ts) or the Codex app-server
-// (codex/engine.ts). Everything around a turn - task graph, worktrees, scheduling, CI, reviews,
-// merges, steering, restarts - is the team's (team.ts) and the same for every engine, so a team
-// can mix them (e.g. a Claude lead with Codex workers).
+// An engine runs one agent turn: the Claude Agent SDK (claude/engine.ts), the Codex app-server
+// (codex/engine.ts), or Grok via xAI OAuth (grok/engine.ts). Everything around a turn - task graph,
+// worktrees, scheduling, CI, reviews, merges, steering, restarts - is the team's (team.ts) and the
+// same for every engine, so a team can mix them (e.g. a Claude lead with Grok workers).
 import type { ChildProcess } from 'node:child_process';
 import type { AgentTool, TurnHandle } from './tools.js';
 
-export type EngineId = 'claude' | 'codex';
-export const ENGINE_IDS: readonly EngineId[] = ['claude', 'codex'];
+export type EngineId = 'claude' | 'codex' | 'grok';
+export const ENGINE_IDS: readonly EngineId[] = ['claude', 'codex', 'grok'];
 export type Role = 'lead' | 'worker';
 
 export interface TurnStats {

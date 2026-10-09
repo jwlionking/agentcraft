@@ -14,6 +14,8 @@ export function modelLabel(model: string | undefined): string | undefined {
   if (claude) return [cap(claude[1]!.toLowerCase()), claude[2] ? `${claude[2]}${claude[3] ? `.${claude[3]}` : ''}` : ''].filter(Boolean).join(' ');
   const gpt = /^gpt-([\d.]+)(?:-(.+))?$/i.exec(m);
   if (gpt) return [`GPT-${gpt[1]}`, ...(gpt[2] ?? '').split('-').filter(Boolean).map(cap)].join(' ');
+  const grok = /^(?:xai-)?grok-(\d+(?:\.\d+)?)(?:-(.+))?$/i.exec(m);
+  if (grok) return [`Grok ${grok[1]}`, ...(grok[2] ?? '').split('-').filter(Boolean).map(cap)].join(' ');
   const o = /^(o\d+)(?:-(.+))?$/i.exec(m);
   if (o) return [o[1]!.toLowerCase(), ...(o[2] ?? '').split('-').filter(Boolean).map(cap)].join(' ');
   return m.slice(0, 24);

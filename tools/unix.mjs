@@ -21,7 +21,7 @@ const runFile = (kind, profile) => path.join(runDir, `unix-${kind}-${profile}.js
 
 function usage(code = 0) {
   console.log(`AgentCraft launcher (macOS, Linux)
-  node tools/unix.mjs launch [--backend sim|claude|codex] [--repo PATH] [--use-claude-login]
+  node tools/unix.mjs launch [--backend sim|claude|codex|grok] [--repo PATH] [--use-claude-login] [--use-grok-login]
                             [--home PATH] [--profile NAME] [--port N] [--dev-port N]
                             [--dev] [--showcase busy|late] [--reset]
                             [--no-game] [--no-foreman] [--no-wait]
@@ -37,7 +37,7 @@ keeps it from taking focus, and disables desktop notifications.`);
 function options(argv) {
   const out = { action: argv.shift(), repo: [], foremanArgs: [] };
   const values = new Set(['backend', 'repo', 'home', 'profile', 'port', 'dev-port', 'showcase', 'summary-json', 'foreman-arg']);
-  const switches = new Set(['use-claude-login', 'dev', 'reset', 'no-game', 'no-foreman', 'no-wait', 'game', 'foreman', 'stop-daemon']);
+  const switches = new Set(['use-claude-login', 'use-grok-login', 'dev', 'reset', 'no-game', 'no-foreman', 'no-wait', 'game', 'foreman', 'stop-daemon']);
   for (let i = 0; i < argv.length; i++) {
     const key = argv[i].replace(/^--/, '');
     if (!argv[i].startsWith('--')) throw new Error(`unexpected argument: ${argv[i]}`);
@@ -57,7 +57,7 @@ function options(argv) {
     out.backend = 'sim';
     out.profile ??= out.showcase === 'late' ? 'showcase-late' : 'showcase';
   }
-  if (!['sim', 'claude', 'codex'].includes(out.backend)) throw new Error('backend must be sim, claude or codex');
+  if (!['sim', 'claude', 'codex', 'grok'].includes(out.backend)) throw new Error('backend must be sim, claude, codex or grok');
   out.profile ??= out.backend;
   if (!/^[\w-]+$/.test(out.profile)) throw new Error('profile must contain only letters, digits, _ or -');
   out.home = path.resolve(out.home ?? process.env.AGENTCRAFT_HOME ?? path.join(os.homedir(), '.agentcraft'));
@@ -201,6 +201,7 @@ async function launch(opt, summary) {
         '--profile', opt.profile, '--home', opt.home, '--port', String(fmPort)];
       for (const repo of opt.repo) args.push('--repo', repo);
       if (opt['use-claude-login']) args.push('--use-claude-login');
+      if (opt['use-grok-login']) args.push('--use-grok-login');
       if (opt.dev) args.push('--no-notify');
       if (opt.showcase) args.push('--showcase', opt.showcase);
       if (opt.reset || opt.showcase) args.push('--reset');
